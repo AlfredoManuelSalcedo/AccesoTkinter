@@ -9,6 +9,7 @@ class Application(ttk.Frame):
 
         self.button = ttk.Button(self, text="Hola, mundo!")
         self.button.place(x=60,y=40, width=100,height=30)
+        
         self.place(relwidth=1,relheight=1)
         
 
