@@ -12,6 +12,7 @@ class FormularioSocios:
         self.cuaderno1 = ttk.Notebook(self.ventana1)
         self.Insertar()
         self.cuaderno1.grid(column=0, row=0, padx=10,pady=10)
+        self.ventana1.mainloop()
 
     def Insertar(self):
         self.pagina1 = ttk.Frame(self.cuaderno1)
@@ -63,6 +64,18 @@ class FormularioSocios:
         #====================boton=====================#
         self.boton1=ttk.Button(self.labelframe1, text="Confirmar", command=self.BInsertar)
         self.boton1.grid(column=1,row=5,padx=4,pady=4)
+
+    def BInsertar(self):
+        datos=(self.socioID.get(), self.nombre.get(),self.estatura.get(),self.edad.get(),self.localidad.get())
+        self.socio.nuevo_socio(datos)
+        mb.showinfo("Información", "Los datos fueron cargados")
+        self.socioID.set("")
+        self.nombre.set("")
+        self.estatura.set("")
+        self.edad.set("")
+        self.localidad.set("")
+
+aplicacion1=FormularioSocios()
 
         
 
