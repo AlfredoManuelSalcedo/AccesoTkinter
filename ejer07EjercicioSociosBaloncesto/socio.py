@@ -17,7 +17,7 @@ class Socio:
         vuelta=cursor.fetchall()
         return vuelta
     
-    def socio(self):
+    def socios(self):
         cursor=self.conexion.cursor()
         sql="SELECT socioID,nombre,estatura,edad,localidad from socio"
         cursor.execute(sql)

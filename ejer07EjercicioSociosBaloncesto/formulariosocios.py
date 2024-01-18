@@ -12,6 +12,7 @@ class FormularioSocios:
         self.cuaderno1 = ttk.Notebook(self.ventana1)
         self.Insertar()
         self.consultaSocio()
+        self.listado_completo()
         self.cuaderno1.grid(column=0, row=0, padx=10,pady=10)
         self.ventana1.mainloop()
 
@@ -143,8 +144,30 @@ class FormularioSocios:
             self.edad2.set("")
             self.localidad2.set("")
             mb.showinfo("Información", "No existe un socio con dicho codigo")
-        
 
+    def listado_completo(self):
+        self.pagina3=ttk.Frame(self.cuaderno1)
+        self.cuaderno1.add(self.pagina3, text="Listado completo")
+
+        self.labelframe3=ttk.LabelFrame(self.pagina3, text="Socio")
+        self.labelframe3.grid(column=0,row=0,padx=5,pady=10)
+   
+        self.boton3=ttk.Button(self.labelframe3, text="Listado completo", command=self.listar)
+        self.boton3.grid(column=0,row=0,padx=4,pady=4)
+
+        self.scrolledtext1=st.ScrolledText(self.labelframe3, width=30, height=10)
+        self.scrolledtext1.grid(column=0, row=1,padx=10,pady=10)
+    
+    def listar(self):
+        respuesta=self.socio.socios()
+        self.scrolledtext1.delete("1.0", tk.END)
+        for fila in respuesta:
+            self.scrolledtext1.insert(tk.END, "socioID:"+str(fila[0])+
+                                              "\nNombre:"+fila[1]+
+                                              "\nEstatura:"+str(fila[2])+
+                                              "\nEdad:"+str(fila[3])+
+                                              "\nLocalidad:"+str(fila[4])+
+                                              "\n\n")
 
 aplicacion1=FormularioSocios()
 
