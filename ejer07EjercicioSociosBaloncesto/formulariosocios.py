@@ -77,9 +77,11 @@ class FormularioSocios:
         self.localidad.set("")
 
     def consultaSocio(self):
-        self.pagina1 = ttk.Frame(self.cuaderno1)
-        self.cuaderno1.add(self.pagina1, text="Consultar socio")
+        self.pagina2 = ttk.Frame(self.cuaderno1)
+        self.cuaderno1.add(self.pagina2, text="Consultar socio")
     
+        self.labelframe1=ttk.LabelFrame(self.pagina2, text="Busqueda:")
+        self.labelframe1.grid(column=0,row=0,padx=5,pady=10)
 
 aplicacion1=FormularioSocios()
 
