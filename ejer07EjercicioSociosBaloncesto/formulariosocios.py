@@ -11,6 +11,7 @@ class FormularioSocios:
         self.ventana1.title("Socios de baloncesto")
         self.cuaderno1 = ttk.Notebook(self.ventana1)
         self.Insertar()
+        self.consultaSocio()
         self.cuaderno1.grid(column=0, row=0, padx=10,pady=10)
         self.ventana1.mainloop()
 
@@ -74,6 +75,11 @@ class FormularioSocios:
         self.estatura.set("")
         self.edad.set("")
         self.localidad.set("")
+
+    def consultaSocio(self):
+        self.pagina1 = ttk.Frame(self.cuaderno1)
+        self.cuaderno1.add(self.pagina1, text="Consultar socio")
+    
 
 aplicacion1=FormularioSocios()
 
