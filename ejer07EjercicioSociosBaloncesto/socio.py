@@ -1,6 +1,6 @@
 import mysql.connector
 
-class socioBaloncesto:
+class Socio:
     def __init__(self):
         self.conexion=mysql.connector.connect(host="localhost", user="root", passwd="root", database="baloncesto")
     
