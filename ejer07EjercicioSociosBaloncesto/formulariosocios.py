@@ -53,8 +53,8 @@ class FormularioSocios:
         self.entryedad.grid(column=1,row=2,padx=4,pady=4)
 
         #====================localidad=====================#
-        self.label4=ttk.Label(self.labelframe1, text="Localidad:")
-        self.label4.grid(column=0, row=4,padx=4,pady=4)
+        self.label5=ttk.Label(self.labelframe1, text="Localidad:")
+        self.label5.grid(column=0, row=4,padx=4,pady=4)
 
         self.localidad=tk.StringVar()
         self.entrylocalidad=ttk.Entry(self.labelframe1,textvariable=self.localidad)
