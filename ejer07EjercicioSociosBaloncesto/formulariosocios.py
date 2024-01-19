@@ -201,8 +201,12 @@ class FormularioSocios:
 
     def borrar(self):
         datos=(self.codigoborra.get(),)
-        self.socio.borrar_socio(datos)
-        mb.showinfo("Información", "Socio eliminado")
+        cantidad=self.socio.borrar_socio(datos)
+        if cantidad==1:
+            mb.showinfo("Información", "Socio eliminado")
+            self.codigoborra.set("")
+        else:
+            mb.showerror("Información", "No existe un articulo con dicho codigo")
 
 aplicacion1=FormularioSocios()
 
