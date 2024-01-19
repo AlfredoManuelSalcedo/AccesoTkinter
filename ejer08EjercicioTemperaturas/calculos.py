@@ -1,0 +1,2 @@
+class calculo:
+    print("Hola")
