@@ -23,6 +23,7 @@ class FormularioSocios:
         self.consultaSocio()
         self.listado_completo()
         self.borrado()
+        self.modificar()
         self.cuaderno1.grid(column=0, row=0, padx=10,pady=10)
         self.ventana1.mainloop()
 
@@ -207,6 +208,84 @@ class FormularioSocios:
             self.codigoborra.set("")
         else:
             mb.showerror("Información", "No existe un articulo con dicho codigo")
+
+    #<<<<<<<<<<<<<<<<<<<<<<<<<MODIFICAR>>>>>>>>>>>>>>>>>>>>>>>
+    def modificar(self):
+        self.pagina5 = ttk.Frame(self.cuaderno1)
+        self.cuaderno1.add(self.pagina5, text="Modificar socio")
+    
+        self.labelframe5=ttk.LabelFrame(self.pagina5, text="Modificar:")
+        self.labelframe5.grid(column=0,row=0,padx=5,pady=10)
+
+        #====================socioID=====================#
+        self.label12=ttk.Label(self.labelframe5, text="socioID:")
+        self.label12.grid(column=0,row=0,padx=4,pady=4)
+
+        self.socioID3=tk.IntVar()
+        self.entrysocioID3=ttk.Entry(self.labelframe5,textvariable=self.socioID3)
+        self.entrysocioID3.grid(column=1,row=0,padx=4,pady=4)
+
+        #====================nombre=====================#
+        self.label13=ttk.Label(self.labelframe5, text="Nombre:")
+        self.label13.grid(column=0, row=1,padx=4,pady=4)
+        self.nombre3=tk.StringVar()
+        self.entrynombre3=ttk.Entry(self.labelframe5,textvariable=self.nombre3)
+        self.entrynombre3.grid(column=1,row=1,padx=4,pady=4)
+
+        #====================estatura=====================#
+        self.label14=ttk.Label(self.labelframe5, text="Estatura:")
+        self.label14.grid(column=0, row=2,padx=4,pady=4)
+
+        self.estatura3=tk.IntVar()
+        self.entryestatura3=ttk.Entry(self.labelframe5,textvariable=self.estatura3)
+        self.entryestatura3.grid(column=1,row=2,padx=4,pady=4)
+
+        #====================edad=====================#
+        self.label15=ttk.Label(self.labelframe5, text="Edad:")
+        self.label15.grid(column=0, row=3,padx=4,pady=4)
+
+        self.edad3=tk.IntVar()
+        self.entryedad3=ttk.Entry(self.labelframe5,textvariable=self.edad3)
+        self.entryedad3.grid(column=1,row=3,padx=4,pady=4)
+
+        #====================localidad=====================#
+        self.label16=ttk.Label(self.labelframe5, text="Localidad:")
+        self.label16.grid(column=0, row=4,padx=4,pady=4)
+
+        self.localidad3=tk.StringVar()
+        self.entrylocalidad3=ttk.Entry(self.labelframe5,textvariable=self.localidad3)
+        self.entrylocalidad3.grid(column=1,row=4,padx=4,pady=4)
+
+         #====================boton1=====================#
+        self.boton5=ttk.Button(self.labelframe5, text="Buscar", command=self.consultar_mod)
+        self.boton5.grid(column=1,row=5,padx=4,pady=4)
+        #====================boton2=====================#
+        self.boton5=ttk.Button(self.labelframe5, text="Modificar", command=self.modifica)
+        self.boton5.grid(column=1,row=6,padx=4,pady=4)
+
+    def consultar_mod(self):
+        datos=(self.socioID3.get(),)
+        respuesta2=self.socio.consultaSocio(datos)
+        if len(respuesta2)>0:
+            self.nombre3.set(respuesta2[0][0])
+            self.estatura3.set(respuesta2[0][1])
+            self.edad3.set(respuesta2[0][2])
+            self.localidad3.set(respuesta2[0][3])
+        else:
+            self.nombre2.set("")
+            self.estatura2.set("")
+            self.edad2.set("")
+            self.localidad2.set("")
+            mb.showerror("Información", "No existe un socio con dicho codigo")
+    
+    def modifica(self):
+        datos=(self.nombre3.get(),self.estatura3.get(),self.edad3.get(),self.localidad3.get(),self.socioID3.get())
+        respuesta3=self.socio.modificar(datos)
+        if respuesta3>0:
+            mb.showinfo("Información","Usuario actualizado existosamente")
+        else:
+            mb.showerror("Información","No se pudo modificar")
+
 
 aplicacion1=FormularioSocios()
 
