@@ -9,10 +9,20 @@ class FormularioSocios:
         self.socio=socio.Socio()
         self.ventana1=tk.Tk()
         self.ventana1.title("Socios de baloncesto")
+
+        self.ventana1.resizable(False,False)
+        self.ventana1.configure(background="#6A9F80")
+        w=525
+        h = 400
+        x=(self.ventana1.winfo_screenwidth() / 2) - (w/2)
+        y = (self.ventana1.winfo_screenheight()/2)-(h/2)
+        self.ventana1.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
         self.cuaderno1 = ttk.Notebook(self.ventana1)
         self.Insertar()
         self.consultaSocio()
         self.listado_completo()
+        self.borrar_socio()
         self.cuaderno1.grid(column=0, row=0, padx=10,pady=10)
         self.ventana1.mainloop()
 
@@ -145,6 +155,8 @@ class FormularioSocios:
             self.localidad2.set("")
             mb.showinfo("Información", "No existe un socio con dicho codigo")
 
+
+    #<<<<<<<<<<<<<<<<<<<<<LISTAR>>>>>>>>>>>>>>>>>>>>>>>
     def listado_completo(self):
         self.pagina3=ttk.Frame(self.cuaderno1)
         self.cuaderno1.add(self.pagina3, text="Listado completo")
@@ -168,6 +180,14 @@ class FormularioSocios:
                                               "\nEdad:"+str(fila[3])+
                                               "\nLocalidad:"+str(fila[4])+
                                               "\n\n")
+    
+    #<<<<<<<<<<<<<<<<<<<<<BORRAR>>>>>>>>>>>>>>>>>>>>>>>
+    def borrar_socio(self):
+        self.pagina4=ttk.Frame(self.cuaderno1)
+        self.cuaderno1.add(self.pagina4, text="Borrar socio")
+
+        self.labelframe4=ttk.LabelFrame(self.pagina4, text="Socio")
+        self.labelframe4.grid(column=0,row=0,padx=5,pady=10)
 
 aplicacion1=FormularioSocios()
 
