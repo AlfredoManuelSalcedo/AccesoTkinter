@@ -52,7 +52,7 @@ class temperaturastabla:
         self.boton3=ttk.Button(self.labelframe1, text="-1", width="5", command=self.restark)
         self.boton3.grid(column=3,row=1,padx=4,pady=4)
 #==============================FARENHEIT===========================#
-        self.label3=ttk.Label(self.labelframe1, text="Farenheit:")
+        self.label3=ttk.Label(self.labelframe1, text="Fahrenheit:")
         self.label3.grid(column=0,row=2,padx=4,pady=4)
     
         self.farenheit=tk.DoubleVar()
