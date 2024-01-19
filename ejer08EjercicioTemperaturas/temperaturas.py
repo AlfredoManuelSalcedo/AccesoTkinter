@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox as mb 
-from tkinter import scrolledtext as st 
 from tkinter import PhotoImage
 import calculos
 
@@ -33,7 +32,7 @@ class temperaturastabla:
         self.celsius=tk.DoubleVar()
         self.entryc=ttk.Entry(self.labelframe1,textvariable=self.celsius, width=10)
         self.entryc.grid(column=1,row=0,padx=4,pady=4)
-        self.entryc.trace("w",funcion)
+        
 
         self.boton=ttk.Button(self.labelframe1, text="+1", width="5", command=self.sumarc)
         self.boton.grid(column=2,row=0,padx=4,pady=4)
@@ -46,6 +45,7 @@ class temperaturastabla:
         self.kelvin=tk.DoubleVar()
         self.entryk=ttk.Entry(self.labelframe1,textvariable=self.kelvin, width=10)
         self.entryk.grid(column=1,row=1,padx=4,pady=4)
+        
 
         self.boton2=ttk.Button(self.labelframe1, text="+1", width="5", command=self.sumark)
         self.boton2.grid(column=2,row=1,padx=4,pady=4)
@@ -58,11 +58,16 @@ class temperaturastabla:
         self.farenheit=tk.DoubleVar()
         self.entryf=ttk.Entry(self.labelframe1,textvariable=self.farenheit, width=10)
         self.entryf.grid(column=1,row=2,padx=4,pady=4)
+        
 
         self.boton4=ttk.Button(self.labelframe1, text="+1", width="5", command=self.sumarf)
         self.boton4.grid(column=2,row=2,padx=4,pady=4)
         self.boton5=ttk.Button(self.labelframe1, text="-1", width="5", command=self.restarf)
         self.boton5.grid(column=3,row=2,padx=4,pady=4)
+
+        self.celsius.trace_add("write",self.actualizarc())
+        self.kelvin.trace_add("write",self.actualizark())
+        self.farenheit.trace_add("write",self.actualizarf())
         
     def sumarc(self):
         self.celsius.set(self.celsius.get()+1)
@@ -76,6 +81,16 @@ class temperaturastabla:
         self.farenheit.set(self.farenheit.get()+1)
     def restarf(self):
         self.farenheit.set(self.farenheit.get()-1)
+
+    def actualizarc(self):
+        self.kelvin.set(self.celsius.get()+ 273.15)
+        self.farenheit.set(((self.celsius.get()*9)/5)+32)
+    def actualizark(self):
+        self.celsius.set(self.kelvin.get()-273.15)
+        self.farenheit.set((((self.kelvin.get()-273.15)*9)/5)+32)
+    def actualizarf(self):
+        self.celsius.set(((self.farenheit.get()-32)*5)/9)
+        self.kelvin.set((((self.farenheit.get()-32)*5)/9)+273.15)
 
 
         
