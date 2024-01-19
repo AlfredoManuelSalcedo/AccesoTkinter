@@ -283,6 +283,11 @@ class FormularioSocios:
         respuesta3=self.socio.modificar(datos)
         if respuesta3>0:
             mb.showinfo("Información","Usuario actualizado existosamente")
+            self.socioID3.set("")
+            self.nombre3.set("")
+            self.estatura3.set("")
+            self.edad3.set("") 
+            self.localidad3.set("")
         else:
             mb.showerror("Información","No se pudo modificar")
 
