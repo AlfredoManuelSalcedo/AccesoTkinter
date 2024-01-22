@@ -26,9 +26,8 @@ class temperaturastabla:
         self.labelframe1=ttk.LabelFrame(self.ventana1, text="Temperaturas")
         self.labelframe1.grid(column=0,row=0,padx=125,pady=10)
  #==============================CELSIUS===========================#
-        self.label1=ttk.Label(self.labelframe1, text="Celsius:")
-        self.label1.grid(column=0,row=0,padx=4,pady=4)
-    
+        self.label1=ttk.Label(self.labelframe1, text="Celsius:").grid(column=0,row=0,padx=4,pady=4)
+        
         self.celsius=tk.DoubleVar()
         self.entryc=ttk.Entry(self.labelframe1,textvariable=self.celsius, width=10)
         self.entryc.grid(column=1,row=0,padx=4,pady=4)

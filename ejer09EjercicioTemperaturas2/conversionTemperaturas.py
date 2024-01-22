@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox as mb 
 import convertir as cv
 
-class Aplicacion:
+class Aplicacion(ventana1):
     s =ttk.Style()
     s.configure("TLabelframe", background="grey")
     s.configure("TLabelframe.Label",background="grey", foreground="white", font=("verdana",20,"bold"))
@@ -12,6 +12,9 @@ class Aplicacion:
     caracteristicas = {"justify":"left", "background":"FFFFFF","foreground":"black","font":("Verdana",10,"bold"),"width":20}
     caracteristicas2 = {"justify":"right", "background":"#FFFFFF", "foreground":"black", "font":("Verdana", 10, "bold"), "width":10}
     caracteristicas3 = {"width":3}
+
+
+
 
 
 class App(tk.Tk):
@@ -29,3 +32,4 @@ class App(tk.Tk):
 if __name__=="__main__":
     ap = App()
     ap.mainloop()
+    aplicacion=Aplicacion(ap)
