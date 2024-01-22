@@ -16,7 +16,7 @@ class Aplicacion:
         caracteristicas3 = {"width":3}
 
         self.lf1=ttk.LabelFrame(ventana1, text="Conversiones", labelanchor="nw")
-        self.lf1.grid(column=0,row=0,padx=10,pady=50)
+        self.lf1.grid(column=0,row=0,padx=20,pady=10)
 
         
         ttk.Label(self.lf1, text="Celsius:",**caracteristicas).grid(column=0,row=0,padx=20,pady=20)
