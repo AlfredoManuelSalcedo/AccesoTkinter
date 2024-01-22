@@ -32,6 +32,44 @@ class ControlFrame(ttk.LabelFrame):
         self.frames[4] = CrearFrame(aplicacion,"Fahrenheit",cv.Convertir.f_a_k)
         self.frames[5] = CrearFrame(aplicacion,"Kelvin",cv.Convertir.k_a_f)
 
+        self.cambio_frame()
+
+    def cambio_frame(self):
+        frame =self.frames[self.valor.get()]
+        frame.reset()
+        frame.tkraise()
+
+class CrearFrame:
+    def __init__(self,aplicacion,nombre,funcion):
+        super().__init__(aplicacion)
+        self.nombre = nombre
+        self.funcion = funcion
+
+        opciones = {'padx':5,'pady':5}
+
+        ttk.Label(self,text=self.nombre).grid(column=0,row=0,sticky='w',**opciones)
+
+        self.temperatura = tk.StringVar()
+        self.temperatura_entry = tk.Entry(self, textvariable=self.temperatura)
+        self.temperatura_entry.grid(column=1,row=0,sticky='w',**opciones)
+
+        tk.Button(self,text="Convertir",command=self.conversion).grid(column=2,row=0,sticky='w',**opciones)
+        self.VResultado = ttk.Label(self)
+        self.VResultado.grid(columnspan=3,row=1,**opciones)
+        
+        self.grid(column=0,row=0,padx=5,pady=5,sticky='nsew')
+        self.temperatura_entry.focus()
+
+    def conversion(self,event=None):
+        try:
+            resultado=self.funcion(float(self.temperatura.get()))
+            self.VResultado.config(text=resultado)
+        except ValueError as error:
+            mb.showerror(title='ERROR', message=error)
+
+    def reset(self):
+        
+
 
 class App(tk.Tk):
     def __init__(self):
