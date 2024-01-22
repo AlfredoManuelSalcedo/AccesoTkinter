@@ -69,6 +69,7 @@ class CrearFrame:
 
     def reset(self):
         
+        
 
 
 class App(tk.Tk):

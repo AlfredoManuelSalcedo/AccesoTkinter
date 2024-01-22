@@ -71,9 +71,7 @@ class Aplicacion:
         self.gc.set(gc)
         self.gf.set(gf)
         self.gk.set(gk)
-
-
-        
+       
 
 class App(tk.Tk):
     def __init__(self):
