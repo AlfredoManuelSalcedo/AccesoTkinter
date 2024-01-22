@@ -25,15 +25,30 @@ class Aplicacion:
         ttk.Button(self.lf1,text="+1",command=lambda *_: self.cambio(*_,v1="gc",v2=1),**caracteristicas).grid(column=2,row=0, padx=10)
         ttk.Button(self.lf1,text="-1",command=lambda *_: self.cambio(*_,v1="gc",v2=-1),**caracteristicas).grid(column=3,row=0)
 
-        ttk.Button(self.lf1,text="+1",command=lambda *_: self.cambio(*_,v1="gf",v2=1),**caracteristicas).grid(column=2,row=1, padx=10)
+        ttk.Button(self.lf1,text="+1",command=lambda *_: self.cambio(*_,v1="gf",v2=1),**caracteristicas).grid(column=2,row=1)
         ttk.Button(self.lf1,text="-1",command=lambda *_: self.cambio(*_,v1="gf",v2=-1),**caracteristicas).grid(column=3,row=1)
 
-        ttk.Button(self.lf1,text="+1",command=lambda *_: self.cambio(*_,v1="gk",v2=1),**caracteristicas).grid(column=2,row=2, padx=10)
+        ttk.Button(self.lf1,text="+1",command=lambda *_: self.cambio(*_,v1="gk",v2=1),**caracteristicas).grid(column=2,row=2)
         ttk.Button(self.lf1,text="-1",command=lambda *_: self.cambio(*_,v1="gk",v2=-1),**caracteristicas).grid(column=3,row=2)
 
-
         self.gc = tk.DoubleVar()
-        
+        caja1=ttk.Entry(self.lf1,textvariable=self.gc,**caracteristicas2)
+        caja1.grid(column=1,row=0)
+        caja1.bind("<Return>", lambda *_,: self.cambio(*_,v1="gc",v2=0))
+        caja1.bind("<FocusOut>", lambda *_,: self.cambio(*_,v1="gc",v2=0))
+
+        self.gf = tk.DoubleVar()
+        caja2=ttk.Entry(self.lf1,textvariable=self.gf,**caracteristicas2)
+        caja2.grid(column=1,row=1)
+        caja2.bind("<Return>", lambda *_,: self.cambio(*_,v1="gf",v2=0))
+        caja2.bind("<FocusOut>", lambda *_,: self.cambio(*_,v1="gf",v2=0))
+
+        self.gk = tk.DoubleVar()
+        caja3=ttk.Entry(self.lf1,textvariable=self.gk,**caracteristicas2)
+        caja3.grid(column=1,row=2)
+        caja3.bind("<Return>", lambda *_,: self.cambio(*_,v1="gk",v2=0))
+        caja3.bind("<FocusOut>", lambda *_,: self.cambio(*_,v1="gk",v2=0))
+
         
 
 class App(tk.Tk):
