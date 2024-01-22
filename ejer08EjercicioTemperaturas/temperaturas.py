@@ -71,8 +71,10 @@ class temperaturastabla:
         
     def sumarc(self):
         self.celsius.set(self.celsius.get()+1)
+        self.actualizarc()
     def restarc(self):
         self.celsius.set(self.celsius.get()-1)
+        self.actualizarc()
     def sumark(self):
         self.kelvin.set(self.kelvin.get()+1)
     def restark(self):
