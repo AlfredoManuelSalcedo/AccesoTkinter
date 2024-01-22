@@ -49,6 +49,29 @@ class Aplicacion:
         caja3.bind("<Return>", lambda *_,: self.cambio(*_,v1="gk",v2=0))
         caja3.bind("<FocusOut>", lambda *_,: self.cambio(*_,v1="gk",v2=0))
 
+        caja1.focus()
+        caja1.select_range(0,tk.END)
+
+    def cambio(self,*args,v1,v2):
+        match v1:
+            case "gc":
+                gc=self.gc.get()+v2
+                gf=cv.Convertir.c_a_f(gc,False)
+                gk=cv.Convertir.c_a_k(gc,False)
+            case "gf":
+                gf=self.gf.get()+v2
+                gc=cv.Convertir.f_a_c(gf,False)
+                gk=cv.Convertir.f_a_k(gf,False)
+            case "gk":
+                gk=self.gk.get()+v2
+                gc=cv.Convertir.k_a_c(gk,False)
+                gf=cv.Convertir.k_a_f(gk,False)
+
+        self.gc.set(gc)
+        self.gf.set(gf)
+        self.gk.set(gk)
+
+
         
 
 class App(tk.Tk):
