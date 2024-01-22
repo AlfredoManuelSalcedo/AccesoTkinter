@@ -39,7 +39,7 @@ class ControlFrame(ttk.LabelFrame):
         frame.reset()
         frame.tkraise()
 
-class CrearFrame:
+class CrearFrame(ttk.Frame):
     def __init__(self,aplicacion,nombre,funcion):
         super().__init__(aplicacion)
         self.nombre = nombre
@@ -68,7 +68,8 @@ class CrearFrame:
             mb.showerror(title='ERROR', message=error)
 
     def reset(self):
-        
+        self.temperatura_entry.delete(0,'end')
+        self.VResultado.text= ''
         
 
 
