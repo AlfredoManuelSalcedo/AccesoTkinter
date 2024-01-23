@@ -33,12 +33,18 @@ class Aplicacion:
 
         ttk.Label(ventana1, text=" ").grid(row=5, column=0)
 
-        self.boton1=tk.Button(ventana1,text="Calcular")
+        self.boton1=tk.Button(ventana1,text="Calcular", command=self.Calcular)
         self.boton1.grid(column=0,row=6)
 
-        self.labelResul=ttk.Label(ventana1,text=" ")
-        self.labelResul.grid(column=0,row=1)
+        self.labelResul=ttk.Label(ventana1)
+        self.labelResul.grid(column=1,row=6)
+
         ap.mainloop()
+
+    def Calcular(self):
+        resultado=eval(str(self.num1.get())+self.combobox1.get()+str(self.num2.get()))
+        self.labelResul.config(text=str(self.num1.get())+self.combobox1.get()+str(self.num2.get())+"="+str(resultado))
+        
 
 class App(tk.Tk):
     def __init__(self):
