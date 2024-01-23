@@ -35,6 +35,9 @@ class Aplicacion:
 
         self.boton1=tk.Button(ventana1,text="Calcular")
         self.boton1.grid(column=0,row=6)
+
+        self.labelResul=ttk.Label(ventana1,text=" ")
+        self.labelResul.grid(column=0,row=1)
         ap.mainloop()
 
 class App(tk.Tk):
