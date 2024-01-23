@@ -12,9 +12,9 @@ class ControlFrame(ttk.LabelFrame):
 
         ttk.Radiobutton(self, text='F a C', value=0,variable=self.valor, command=self.cambio_frame).grid(column=0, row=0,padx=5,pady=5)
 
-        ttk.Radiobutton(self, text='C a F', value=1,variable=self.valor, command=self.cambio_frame).grid(column=1, row=0,padx=5,pady=5)
+        ttk.Radiobutton(self, text='C a K', value=1,variable=self.valor, command=self.cambio_frame).grid(column=1, row=0,padx=5,pady=5)
 
-        ttk.Radiobutton(self, text='C a K', value=2,variable=self.valor, command=self.cambio_frame).grid(column=2, row=0,padx=5,pady=5)
+        ttk.Radiobutton(self, text='C a F', value=2,variable=self.valor, command=self.cambio_frame).grid(column=2, row=0,padx=5,pady=5)
 
         ttk.Radiobutton(self, text='K a C', value=3,variable=self.valor, command=self.cambio_frame).grid(column=3, row=0,padx=5,pady=5)
 
