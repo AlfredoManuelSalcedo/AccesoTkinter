@@ -8,6 +8,8 @@ class Aplicacion:
         
         self.num1=tk.DoubleVar()
         self.entry1=ttk.Entry(ventana1,width=10,textvariable=self.num1)
+        self.entry1.bind("<Return>", self.Calcular)
+        self.entry1.bind("<FocusOut>", self.Calcular)
         self.entry1.grid(column=1,row=0)
 
         ttk.Label(ventana1, text=" ").grid(row=1, column=0)
@@ -22,6 +24,7 @@ class Aplicacion:
             n=0
         self.combobox1.current(n)
         self.combobox1.grid(row=2,column=1)
+        self.combobox1.bind("<<ComboboxSelected>>", self.Calcular)
         
         
         ttk.Label(ventana1, text=" ").grid(row=3, column=0)
@@ -29,6 +32,8 @@ class Aplicacion:
         ttk.Label(ventana1, text="Numero 2: ").grid(row=4, column=0)
         self.num2=tk.DoubleVar()
         self.entry2=ttk.Entry(ventana1,width=10,textvariable=self.num2)
+        self.entry2.bind("<Return>", self.Calcular)
+        self.entry2.bind("<FocusOut>", self.Calcular)
         self.entry2.grid(column=1,row=4)
 
         ttk.Label(ventana1, text=" ").grid(row=5, column=0)
@@ -41,7 +46,7 @@ class Aplicacion:
 
         ap.mainloop()
 
-    def Calcular(self):
+    def Calcular(self, *args):
         resultado=eval(str(self.num1.get())+self.combobox1.get()+str(self.num2.get()))
         self.labelResul.config(text=str(self.num1.get())+self.combobox1.get()+str(self.num2.get())+"="+str(resultado))
         
