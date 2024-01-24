@@ -6,3 +6,4 @@ if __name__ == "__main__":
     for j in range(len(matriz[i])):
         print(matriz[i][j], end=' ')
     print() 
+
