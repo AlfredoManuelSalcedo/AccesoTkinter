@@ -1,12 +1,18 @@
 from tkinter import *
 from tkinter import messagebox
 
+class nuevo_Boton(Button):
+    def __init__(self,v,a):
+        super().__init__(v)
+        f=a["funcion"]
+        Button(v,a["estilo"],text=a["texto"],command=lambda :f(a["par"])).grid(row=a["row"],column=a["column"],sticky="nsew")
+
 class Calculadora(Frame):
     def __init__(self,ventana):
         super().__init__(ventana)
         self.grid()
         self.botones()
-        ap.mainloop()
+        
     
     def botones(self):
         estilo = {"font":("Arial",16),"bg":"white","fg":'red',"highlightbackground":'red'}
@@ -17,29 +23,29 @@ class Calculadora(Frame):
         self.display.grid(row=0,column=0,columnspan=4,sticky="nsew")
 
         matriz=[
-        {"texto":"CE" ,"estilo":"estilo" , "funcion":"self.remplazarTexto('0')","row":1,"column":0},
-        {"texto":"1/x","estilo":"estilo" , "funcion":"self.inversa()","row":1,"column":2},
-        {"texto":"Del","estilo":"estilo" , "funcion":"self.borrarUltimoCaracter()","row":1,"column":1},
-        {"texto":"0"  ,"estilo":"estilo1", "funcion":"self.añadir('0')","row":5,"column":1},
-        {"texto":"1"  ,"estilo":"estilo1", "funcion":"self.añadir('1')","row":4,"column":0},
-        {"texto":"2"  ,"estilo":"estilo1", "funcion":"self.añadir('2')","row":4,"column":1},
-        {"texto":"3"  ,"estilo":"estilo1", "funcion":"self.añadir('3')","row":4,"column":2},
-        {"texto":"4"  ,"estilo":"estilo1", "funcion":"self.añadir('4')","row":3,"column":0},
-        {"texto":"5"  ,"estilo":"estilo1", "funcion":"self.añadir('5')","row":3,"column":1},
-        {"texto":"6"  ,"estilo":"estilo1", "funcion":"self.añadir('6')","row":3,"column":2},
-        {"texto":"7"  ,"estilo":"estilo1", "funcion":"self.añadir('7')","row":2,"column":0},
-        {"texto":"8"  ,"estilo":"estilo1", "funcion":"self.añadir('8')","row":2,"column":1},
-        {"texto":"9"  ,"estilo":"estilo1", "funcion":"self.añadir('9')","row":2,"column":2},
-        {"texto":"/"  ,"estilo":"estilo" , "funcion":"self.añadir('/')","row":1,"column":3},
-        {"texto":"*"  ,"estilo":"estilo" , "funcion":"self.añadir('*')","row":2,"column":3},
-        {"texto":"-"  ,"estilo":"estilo" , "funcion":"self.añadir('-')","row":3,"column":3},
-        {"texto":"+"  ,"estilo":"estilo" , "funcion":"self.añadir('+')","row":4,"column":3},
-        {"texto":"+/-","estilo":"estilo" , "funcion":"self.cambioSigno()","row":5,"column":0},
-        {"texto":"."  ,"estilo":"estilo" , "funcion":"self.añadir('.')","row":5,"column":2},
-        {"texto":"="  ,"estilo":"estilo" , "funcion":"self.evaluar()","row":5,"column":3}]
+        {"texto":"CE" ,"estilo":estilo , "funcion":self.remplazarTexto,"row":1,"column":0,"par":"0"},
+        {"texto":"1/x","estilo":estilo , "funcion":self.inversa,"row":1,"column":2,"par":""},
+        {"texto":"Del","estilo":estilo , "funcion":self.borrarUltimoCaracter,"row":1,"column":1,"par":""},
+        {"texto":"0"  ,"estilo":estilo1, "funcion":self.añadir,"row":5,"column":1,"par":"0"},
+        {"texto":"1"  ,"estilo":estilo1, "funcion":self.añadir,"row":4,"column":0,"par":"1"},
+        {"texto":"2"  ,"estilo":estilo1, "funcion":self.añadir,"row":4,"column":1,"par":"2"},
+        {"texto":"3"  ,"estilo":estilo1, "funcion":self.añadir,"row":4,"column":2,"par":"3"},
+        {"texto":"4"  ,"estilo":estilo1, "funcion":self.añadir,"row":3,"column":0,"par":"4"},
+        {"texto":"5"  ,"estilo":estilo1, "funcion":self.añadir,"row":3,"column":1,"par":"5"},
+        {"texto":"6"  ,"estilo":estilo1, "funcion":self.añadir,"row":3,"column":2,"par":"6"},
+        {"texto":"7"  ,"estilo":estilo1, "funcion":self.añadir,"row":2,"column":0,"par":"7"},
+        {"texto":"8"  ,"estilo":estilo1, "funcion":self.añadir,"row":2,"column":1,"par":"8"},
+        {"texto":"9"  ,"estilo":estilo1, "funcion":self.añadir,"row":2,"column":2,"par":"9"},
+        {"texto":"/"  ,"estilo":estilo , "funcion":self.añadir,"row":1,"column":3,"par":"/"},
+        {"texto":"*"  ,"estilo":estilo , "funcion":self.añadir,"row":2,"column":3,"par":"*"},
+        {"texto":"-"  ,"estilo":estilo , "funcion":self.añadir,"row":3,"column":3,"par":"-"},
+        {"texto":"+"  ,"estilo":estilo , "funcion":self.añadir,"row":4,"column":3,"par":"+"},
+        {"texto":"+/-","estilo":estilo , "funcion":self.cambioSigno,"row":5,"column":0,"par":""},
+        {"texto":"."  ,"estilo":estilo , "funcion":self.añadir,"row":5,"column":2,"par":"."},
+        {"texto":"="  ,"estilo":estilo , "funcion":self.evaluar,"row":5,"column":3,"par":""}]
 
         for a in matriz:
-            Button(self, text=a["texto"], command=lambda: a["funcion"]).grid(row=a["row"],column=a["column"],sticky="nsew")
+           nuevo_Boton(self, a)
 
 
     def remplazarTexto(self, text):
@@ -55,7 +61,7 @@ class Calculadora(Frame):
         else:
             self.display.insert(textLength, text)
     
-    def evaluar(self):
+    def evaluar(self,*args):
         try:
             self.remplazarTexto(eval(self.display.get()))
         except (SyntaxError, AttributeError):
@@ -73,7 +79,7 @@ class Calculadora(Frame):
                 return True
         return False
 
-    def cambioSigno(self):
+    def cambioSigno(self,*args):
         if self.contineSigno():
             self.evaluar()
         firstChar = self.display.get()[0]
@@ -84,14 +90,14 @@ class Calculadora(Frame):
         else:
             self.display.insert(0,"-")
     
-    def inversa(self):
+    def inversa(self,*args):
         self.display.insert(0,"1/(")
         self.añadir(")")
         self.evaluar()
 
-    def borrarUltimoCaracter(self):
+    def borrarUltimoCaracter(self,*args):
         textLength= len(self.display.get())
-        if textLength >=1:
+        if textLength >1:
             self.display.delete(textLength-1 , END)
         elif textLength ==1:
             self.remplazarTexto("0")
@@ -116,4 +122,4 @@ class App(Tk):
 if __name__ == "__main__":
     ap=App()
     Calculadora(ap)
-    
+    ap.mainloop()
