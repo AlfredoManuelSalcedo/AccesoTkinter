@@ -5,7 +5,6 @@ import random
 
 class Aplicacion:
     def __init__(self,ventana):
-        self.ventana1=tk.Tk()
         self.label1=ttk.Label(ventana, text="Seleccione la cantidad de bultos:")
         self.label1.grid(column=0, row=0, padx=10, pady=10)
         self.spinbox1=ttk.Spinbox(ventana, from_=0, to=100, width=10, state='readonly')        
@@ -42,3 +41,4 @@ class App(tk.Tk):
 
 app=App()
 Aplicacion(app)
+app.mainloop()
