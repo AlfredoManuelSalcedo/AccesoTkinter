@@ -1,4 +1,4 @@
-import tkinter as tk
+from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
 import random
@@ -27,7 +27,7 @@ class Aplicacion:
                 self.label2.configure(text="No se revisan")
                 self.label2.configure(background="green")
 
-class App(tk.Tk):
+class App(Tk):
     def __init__(self):
         super().__init__()
         self.configure(padx=30,pady=30)
