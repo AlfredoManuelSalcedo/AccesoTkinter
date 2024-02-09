@@ -1,4 +1,7 @@
 import mysql.connector
+from tkinter import *
+from tkinter import ttk
+from tkinter import messagebox as mb
 
 class base:
     def verificar():
@@ -11,7 +14,7 @@ class base:
                 print("Base de datos creada")
 
         except mysql.connector.Error as e:
-            print("La base de datos ya existe")
+            print("BBDD conectada")
         finally:
             if connection.is_connected():
                 cursor.close()
@@ -38,6 +41,14 @@ class base:
             conn.close()
         except Exception as e:
             pass
-
-
- 
+        
+    def labels(vnt):
+        label1=ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
+        label2=ttk.Label(vnt, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
+        SQL_COUNT = "Select count(MONEDA) from cajero"
+        conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
+        cursor = conn.cursor()
+        cursor.execute(SQL_COUNT)
+        records = cursor.fetchall()
+        for row in records:
+            

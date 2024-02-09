@@ -7,8 +7,7 @@ class Aplicacion:
     def __init__(self,ventana):
         bbdd.base.verificar()
         bbdd.base.verificartbl()
-        self.label1=ttk.Label(ventana, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
-        self.label2=ttk.Label(ventana, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
+        bbdd.base.labels(ventana)
     
     
 
