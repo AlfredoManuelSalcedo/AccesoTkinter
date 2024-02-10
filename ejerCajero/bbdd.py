@@ -45,10 +45,12 @@ class base:
     def labels(vnt):
         label1=ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
         label2=ttk.Label(vnt, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
-        SQL_COUNT = "Select count(MONEDA) from cajero"
+        SQL_COUNT = "Select moneda from cajero"
         conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
         cursor = conn.cursor()
         cursor.execute(SQL_COUNT)
         records = cursor.fetchall()
+        fila = 1
         for row in records:
-            
+            ttk.Label(vnt, text=row[0]).grid(column=0, row=fila, padx=10, pady=10)
+            fila += 1
