@@ -43,8 +43,8 @@ class base:
             pass
         
     def labels(vnt):
-        label1=ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
-        label2=ttk.Label(vnt, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
+        ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
+        ttk.Label(vnt, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
         SQL_COUNT = "Select moneda from cajero"
         conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
         cursor = conn.cursor()
@@ -53,4 +53,17 @@ class base:
         fila = 1
         for row in records:
             ttk.Label(vnt, text=row[0]).grid(column=0, row=fila, padx=10, pady=10)
+            fila += 1
+    
+    def selects(vnt):
+        SQL_SELECT="Select cantidad from cajero"
+        conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
+        cursor = conn.cursor()
+        cursor.execute(SQL_SELECT)
+        records = cursor.fetchall()
+        fila = 1
+        for row in records:
+            Spinbox1=ttk.Spinbox(vnt, from_=0, to=2000, width=5)        
+            Spinbox1.set(row[0])
+            Spinbox1.grid(row=fila, column=1)
             fila += 1

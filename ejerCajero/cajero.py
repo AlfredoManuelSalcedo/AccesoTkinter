@@ -8,6 +8,7 @@ class Aplicacion:
         bbdd.base.verificar()
         bbdd.base.verificartbl()
         bbdd.base.labels(ventana)
+        bbdd.base.selects(ventana)
     
     
 
