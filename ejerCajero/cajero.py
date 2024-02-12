@@ -11,8 +11,6 @@ class Aplicacion:
         bbdd.base.selects(ventana)
     
     
-
-
 class App(Tk):
     def __init__(self):
         super().__init__()
