@@ -66,4 +66,9 @@ class base:
             Spinbox1=ttk.Spinbox(vnt, from_=0, to=2000, width=5)        
             Spinbox1.set(row[0])
             Spinbox1.grid(row=fila, column=1)
+            Spinbox1.bind("<Button>", base.cambio)
             fila += 1
+
+    def cambio(this,*args):
+        print("CLICK")
+            
