@@ -45,7 +45,7 @@ class base:
     def labels(vnt):
         ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
         ttk.Label(vnt, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
-        SQL_COUNT = "Select moneda from cajero"
+        SQL_COUNT = "SELECT MONEDA FROM CAJERO"
         conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
         cursor = conn.cursor()
         cursor.execute(SQL_COUNT)
@@ -55,20 +55,20 @@ class base:
             ttk.Label(vnt, text=row[0]).grid(column=0, row=fila, padx=10, pady=10)
             fila += 1
     
-    def selects(vnt):
-        SQL_SELECT="Select cantidad from cajero"
-        conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
-        cursor = conn.cursor()
-        cursor.execute(SQL_SELECT)
-        records = cursor.fetchall()
-        fila = 1
-        for row in records:
-            Spinbox1=ttk.Spinbox(vnt, from_=0, to=2000, width=5)        
-            Spinbox1.set(row[0])
-            Spinbox1.grid(row=fila, column=1)
-            Spinbox1.bind("<Button>", base.cambio)
-            fila += 1
-
-    def cambio(this,*args):
-        print("CLICK")
-            
+    #def selects(vnt):
+        #SQL_SELECT="SELECT * FROM CAJERO"
+        #conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
+        #cursor = conn.cursor()
+        #cursor.execute(SQL_SELECT)
+        #records = cursor.fetchall()
+        #fila = 1
+        #for row in records:
+            #Spinbox1=ttk.Spinbox(vnt, from_=0, to=2000, width=5)        
+            #Spinbox1.set(row[1])
+            #Spinbox1.grid(row=fila, column=1)
+            #Spinbox1.bind("<Button>",lambda click, valor=row[0],sb=Spinbox1: base.cambio(click,v=valor,spb=sb))
+            #fila += 1
+    
+    #def cambio(this,*args,v,spb):
+        #print(spb.get())
+        

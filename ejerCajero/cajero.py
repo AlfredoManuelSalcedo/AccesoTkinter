@@ -8,7 +8,14 @@ class Aplicacion:
         bbdd.base.verificar()
         bbdd.base.verificartbl()
         bbdd.base.labels(ventana)
-        bbdd.base.selects(ventana)
+        #bbdd.base.selects(ventana)
+
+class spinbox:
+    def __init__(self,ventana,nombre,valor):
+        super().__init__(ventana)
+        self.nombre=nombre
+        self.valor=valor
+        ttk.Spinbox(ventana, from_=0, to=2000, width=5)
     
     
 class App(Tk):
