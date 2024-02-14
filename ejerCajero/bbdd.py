@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
 
+
 class base:
     def verificar():
         try:
@@ -54,6 +55,9 @@ class base:
         for row in records:
             ttk.Label(vnt, text=row[0]).grid(column=0, row=fila, padx=10, pady=10)
             fila += 1
+    
+
+    
     
     #def selects(vnt):
         #SQL_SELECT="SELECT * FROM CAJERO"
