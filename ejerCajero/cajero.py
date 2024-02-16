@@ -15,9 +15,39 @@ class Aplicacion(Tk):
         self.marco2=frame(self,420,self.color,(0,40))
         self.llenar()
         self.recargar()
-        self.compra=273
+        self.compra=DoubleVar().set(273)
 
         label2(self.marco2,"Comprar:")
+        self.compra=Spinbox(self.marco2,name="compra",from_=0,to=10000,increment=1,justify="right",textvariable=self.compra)
+        self.compra.config(font="Arial 12",width=25)
+        self.compra.pack(fill=Y)
+        self.compra.pack_propagate(False)
+        
+        Frame(self.marco2,bg=self.color,height=60,bd=0,pady=10).pack(fill=X)
+
+        label2(self.marco2,"Pago:")
+        self.pago=Text(self.marco2,height=5)
+        self.pago.pack()
+        self.pago.pack_propagate(False)
+        scrollbar= Scrollbar(self.pago)
+        scrollbar.pack(side=RIGHT,fill=Y)
+        self.pago.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.pago.yview)
+
+        Frame(self.marco2,bg=self.color,height=60,bd=0,pady=10).pack(fill=X)
+
+        label2(self.marco2,"Vueltas:")
+        self.vueltas=Text(self.marco2,height=12)
+        self.vueltas.pack()
+        self.vueltas.pack_propagate(False)
+        scrollbar= Scrollbar(self.vueltas)
+        scrollbar.pack(side=RIGHT,fill=Y)
+        self.vueltas.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.vueltas.yview)
+
+        Frame(self.marco2,bg=self.color,height=40,bd=0,pady=10).pack(fill=X)
+
+        
         
     
     def recargar(self):
@@ -51,6 +81,7 @@ class Aplicacion(Tk):
                 label(self.marco1,k,0,str(row[0]))
                 spinbox(self.marco1,k,1,row[0])
                 k=k+1
+                
         except mysql.connector.Error as error:
             print(error)
         finally:
@@ -75,14 +106,14 @@ class spinbox(Spinbox):
         self.contenido=ventana
         cadena =('w'+str(vari)).replace('.','')
         zz=ttk.Spinbox(ventana,name=cadena,from_=0,to=globals()[cadena].get(),increment=1,justify="right",textvariable=globals()[cadena])
-        zz.configure(font="Arial 12",width=9)
+        zz.configure(font="Arial 12",width=8)
         zz.grid(padx=5,pady=5,row=fila,column=columna)
       
 class label(Label):
     def __init__(self, ventana, fila, columna, texto):
         self.contenido=ventana
         label1=ttk.Label(ventana,text=texto)
-        label1.configure(font="Arial 12 bold", width=10)
+        label1.configure(font="Arial 12 bold", background="#4bdddb")
         label1.grid(padx=5,pady=5,row=fila,column=columna)
 
 class label2(Label):
