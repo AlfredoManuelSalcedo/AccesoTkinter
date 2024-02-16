@@ -61,7 +61,7 @@ class Aplicacion(Tk):
     def iniciar(self):
         self.configure(padx=30,pady=30)
         self.title("Cajero")
-        w=425
+        w=600
         h=700
         x = (self.winfo_screenwidth()/2)-(w/2)
         y = (self.winfo_screenheight()/2)-(h/2)
@@ -86,18 +86,18 @@ class label(Label):
         label1.grid(padx=5,pady=5,row=fila,column=columna)
 
 class label2(Label):
-    def __init__(self, ventana, fila, columna, texto):
+    def __init__(self, ventana, texto):
         self.contenido=ventana
         label1=ttk.Label(ventana,text=texto)
         label1.configure(font="Arial 12 bold", width=10)
-        label1.grid(padx=5,pady=5,row=fila,column=columna)
+        label1.pack(fill=X)
  
 class frame(Frame):
-    def __init__(self,ventana,ancho,color,vpadx):
+    def __init__(self,ventana,ancho,color,pos):
         super().__init__(bg=color,height=730,width=ancho,pady=40)
         self.conti=ventana
         ipadding={'ipadx':10,'ipady':10}
-        self.pack(**ipadding,side='left',padx=vpadx)
+        self.pack(**ipadding,side='left',padx=pos)
         self.pack_propagate(False)
     
 

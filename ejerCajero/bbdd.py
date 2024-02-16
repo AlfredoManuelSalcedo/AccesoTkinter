@@ -19,7 +19,6 @@ class base:
             if connection.is_connected():
                 cursor.close()
                 connection.close()
-                print("Connection close")
     
     def verificartbl():
         SQL_CREATE = "CREATE TABLE CAJERO(MONEDA DECIMAL(10,2) PRIMARY KEY, CANTIDAD INT CHECK(CANTIDAD>=0))"
@@ -31,7 +30,7 @@ class base:
             cursor = conn.cursor()
 
             cursor.execute(SQL_CREATE)
-
+            print("Tabla creada")
             for i in range(-2, 3):
                 for j in range(len(numeros)):
                     cursor.execute(SQL_INSERT, (10 ** i * numeros[j], 10))
@@ -40,7 +39,7 @@ class base:
             cursor.close()
             conn.close()
         except Exception as e:
-            pass
+            print("Tabla conectada")
         
    # def labels(vnt):
     #    ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
