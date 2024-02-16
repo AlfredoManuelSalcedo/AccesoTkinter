@@ -2,8 +2,7 @@ import mysql.connector
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox as mb
-
-
+import cajero
 class base:
     def verificar():
         try:
@@ -43,19 +42,54 @@ class base:
         except Exception as e:
             pass
         
-    def labels(vnt):
-        ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
-        ttk.Label(vnt, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
-        SQL_COUNT = "SELECT MONEDA FROM CAJERO"
-        conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
-        cursor = conn.cursor()
-        cursor.execute(SQL_COUNT)
-        records = cursor.fetchall()
-        fila = 1
-        for row in records:
-            ttk.Label(vnt, text=row[0]).grid(column=0, row=fila, padx=10, pady=10)
-            fila += 1
-    
+   # def labels(vnt):
+    #    ttk.Label(vnt, text="Monedas").grid(column=0, row=0, padx=10, pady=10)
+    #    ttk.Label(vnt, text="Cantidad").grid(column=1, row=0, padx=10, pady=10)
+    #    SQL_COUNT = "SELECT MONEDA FROM CAJERO"
+    #    conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
+     #   cursor = conn.cursor()
+     #   cursor.execute(SQL_COUNT)
+     #   records = cursor.fetchall()
+     #   fila = 1
+     #   for row in records:
+     #       ttk.Label(vnt, text=row[0]).grid(column=0, row=fila, padx=10, pady=10)
+     #       fila += 1
+
+    #def recargar():
+    #    try:
+    #        conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
+    #        query="select * from cajero order by moneda desc"
+    #        cursor = conn.cursor()
+    #        cursor.execute(query)
+    #        records = cursor.fetchall()
+    #        for row in records:
+    #            cadena =('w'+str(row[0])).replace('.','')
+    #            globals()[cadena].set[row[1]]
+    #    except mysql.connector.Error as error:
+    #        print(error)
+    #    finally:
+    #        cursor.close()
+
+    #def llenar():
+    #    Label(cajero.marco1,1,0,"Moneda")
+    #    Label(cajero.marco1,1,1,"Cantidad")
+    #    k=2
+    #    try:
+    #        conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
+    #        query="select * from cajero order by moneda desc"
+    #        cursor = conn.cursor()
+    #        cursor.execute(query)
+    #        records = cursor.fetchall()
+    #        for row in records:
+    #            cadena =('w'+str(row[0])).replace('.','')
+    #            globals()[cadena] = DoubleVar(value=row[1])
+    #            cajero.label(cajero.marco1,k,0,str(row[0]))
+    #            cajero.spinbox(cajero.marco1,k,1,row[0])
+    #            k=k+1
+    #    except mysql.connector.Error as error:
+    #        print(error)
+    #    finally:
+    #        cursor.close()
 
     
     
