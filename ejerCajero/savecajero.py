@@ -51,62 +51,62 @@ class Aplicacion(Tk):
         self.boton.pack_propagate(False)
 
     def calcular(self):
-        self.costo=float(self.compra.get())
-        self.dinero=self.pago.get("1.0","end-1c")
-        tb = self.dinero.split('#')
-        cantidad_total = 0.0
+        self.precio=float(self.compra.get())
+        self.compra=self.pago.get("1.0","end-1c")
+        tb = self.compra.split("#")
+        separador = []
+        cantidad_total = 0.00
         for i in tb:
-            matriz2 = i.split('-')
-            cantidad_total += int(matriz2[0]) * float(matriz2[1])
-        resto_cantidad = cantidad_total - self.costo
-        resto_cantidad = round(resto_cantidad, 2)
-        self.vueltas_text=""
-        if self.costo <= cantidad_total:
-         try:
-            sentencia = f"SELECT * from cajero where CANTIDAD > 0 order by MONEDA DESC"
-            connection = mysql.connector.connect(host='localhost', database='CAJEROS', user='root', password='root')
-            cursor = connection.cursor()
-            for i in tb:
-                matriz2 = i.split('-')
-                sentencia2 = f"UPDATE cajero set CANTIDAD = CANTIDAD + {matriz2[0]} where MONEDA = {matriz2[1]}"
-                cursor.execute(sentencia2)
-                connection.commit()
-            while resto_cantidad > 0.01:
-                cursor.execute(sentencia)
-                records = cursor.fetchall()
-                for row in records:
-                    bbdd_cantidad = int(row[1])
-                    bbdd_moneda = float(row[0])
-
-                    if bbdd_moneda <= resto_cantidad:
-                        resto = int(resto_cantidad / bbdd_moneda)
-
-                        if resto <= bbdd_cantidad:
-                            resto_cantidad = round(resto_cantidad - (bbdd_moneda * resto), 2)
-                            sentencia3 = f"UPDATE cajero set CANTIDAD = CANTIDAD - {resto} where MONEDA = {bbdd_moneda}"
-                            cursor.execute(sentencia3)
-                            connection.commit()
-                            self.vueltas_text += f"{resto} {bbdd_moneda}\n"
-                        else:
-                            resto_cantidad = round(resto_cantidad - (bbdd_moneda * bbdd_cantidad), 2)
-                            sentencia3 = f"UPDATE cajero set CANTIDAD = CANTIDAD - {bbdd_cantidad} where MONEDA = {bbdd_moneda}"
-                            cursor.execute(sentencia3)
-                            connection.commit()
-                            self.vueltas_text += f"{bbdd_cantidad} {bbdd_moneda}\n"
-                self.vueltas.delete(1.0, END)
-                self.vueltas.insert(INSERT, self.vueltas_text)
-         except mysql.connector.Error as e:
-            print(e)
-
-         finally:
-            if connection.is_connected():
-                connection.close()
-                cursor.close()
+            separador = i.split("-")
+            cantidad_total += float(separador[1]) * int(separador[0])
+        resta_cantidad = cantidad_total - self.precio
+        resta_cantidad = round(resta_cantidad, 2)
+        print("resto", resta_cantidad)
+        if self.precio <= cantidad_total:
+             try:
+                conn = mysql.connector.connect(host="localhost",port=3306,user="root",password="root",database="CAJEROS")
+                cursor = conn.cursor()
+                cambio = False
+                for i in tb:
+                    separador = i.split("-")
+                    SQL_UPDATE = f"UPDATE CAJERO SET CANTIDAD = CANTIDAD + {separador[0]} WHERE MONEDA = {separador[1]}"
+                    cursor.execute(SQL_UPDATE)
+                    conn.commit()
+                while resta_cantidad > 0.01:
+                    cursor.execute("SELECT * FROM CAJERO WHERE CANTIDAD > 0 ORDER BY MONEDA DESC")
+                    results = cursor.fetchall()
+                    for row in results:
+                        bbdd_moneda = row[0]
+                        bbdd_cantidad = row[1]
+                        self.vueltas.insert(bbdd_moneda,bbdd_cantidad)
+                        print("moneda", bbdd_moneda)
+                        print("cantidad", bbdd_cantidad)
+                        if bbdd_moneda <= resta_cantidad:
+                            resto = float(resta_cantidad) / float(bbdd_moneda)
+                            resto = float(resto)
+                            print("resto", resto)
+                            if resto <= bbdd_cantidad:
+                                resta_cantidad -= float(bbdd_moneda) * resto
+                                SQL_UPDATE2 = f"UPDATE CAJERO SET CANTIDAD = CANTIDAD - {resto} WHERE MONEDA = {bbdd_moneda}"
+                                cursor.execute(SQL_UPDATE2)
+                                conn.commit()
+                                cambio = True
+                            else:
+                                resta_cantidad -= bbdd_moneda * bbdd_cantidad
+                                SQL_UPDATE2 = f"UPDATE CAJERO SET CANTIDAD = CANTIDAD - {bbdd_cantidad} WHERE MONEDA = {bbdd_moneda}"
+                                cursor.execute(SQL_UPDATE2)
+                                conn.commit()
+                                cambio = True
+                    if not cambio:
+                        break
+             except mysql.connector.Error as e:
+                print(e)
+             finally:
+                if conn.is_connected():
+                    cursor.close()
+                    conn.close()
         else:
-         print(f"Debe ingresar {resto_cantidad} para completar la compra")
-        self.llenar()
-        self.recargar()
-
+            print(f"Debe ingresar {resta_cantidad} a la compra")
     def recargar(self):
         try:
             conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
