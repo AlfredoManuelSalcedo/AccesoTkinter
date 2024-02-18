@@ -46,7 +46,12 @@ class Aplicacion(Tk):
         scrollbar.config(command=self.vueltas.yview)
 
         Frame(self.marco2,bg=self.color,height=40,bd=0,pady=10).pack(fill=X)
+        self.boton = Button(self.marco2, text="Comprar",command=self.calcular)
+        self.boton.pack()
+        self.boton.pack_propagate(False)
 
+    def calcular(self):
+        print("pulsado")
         
         
     
