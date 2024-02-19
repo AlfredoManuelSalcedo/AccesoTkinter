@@ -127,7 +127,7 @@ class Aplicacion(Tk):
         self.llenar()
         self.recargar()
 
-
+    #FUNCIONES PARA CONTROLAR LA CREACION Y RELLENADO DE LOS SPINBOX Y LABELS
     def recargar(self):
         try:
             conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
@@ -166,7 +166,7 @@ class Aplicacion(Tk):
             cursor.close()
 
         
-
+    #PARAMETROS DE LA VENTANA
     def iniciar(self):
         self.configure(padx=30,pady=30)
         self.title("Cajero")
@@ -178,6 +178,7 @@ class Aplicacion(Tk):
         self.resizable(False,False)
         self.configure(background="#4bdddb")
     
+    #FUNCION PARA ACTUALIZAR LA BBDD EN BASE A LO CAMBIADO EN LOS SPINBOX
     def cambio(this,*args,spb,v):
         try:
             conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
@@ -192,7 +193,7 @@ class Aplicacion(Tk):
         finally:
             cursor.close()
 
-
+#CLASE ENCARGADA DE LA CREACION DE SPINBOX
 class spinbox(Spinbox):
     def __init__(self, ventana, fila, columna, vari):
         self.contenido=ventana
@@ -202,6 +203,7 @@ class spinbox(Spinbox):
         zz.grid(padx=5,pady=5,row=fila,column=columna)
         zz.bind("<Button>", lambda click,valor=vari,sb=zz: Aplicacion.cambio(click,spb=sb,v=valor))
       
+#CLASE ENCARGADA DE LA CREACION DE LABELS
 class label(Label):
     def __init__(self, ventana, fila, columna, texto):
         self.contenido=ventana
@@ -209,6 +211,7 @@ class label(Label):
         label1.configure(font="Arial 12 bold", background="#4bdddb")
         label1.grid(padx=5,pady=5,row=fila,column=columna)
 
+#CLASE ENCARGADA DE LA CREACION DE OTRAS LABELS
 class label2(Label):
     def __init__(self, ventana, texto):
         self.contenido=ventana
@@ -216,6 +219,7 @@ class label2(Label):
         label1.configure(font="Arial 12 bold", width=10)
         label1.pack(fill=X)
  
+#CLASE ENCARGADA DE LA CREACION DE MARCOS
 class frame(Frame):
     def __init__(self,ventana,ancho,color,pos):
         super().__init__(bg=color,height=730,width=ancho,pady=40)
@@ -224,7 +228,7 @@ class frame(Frame):
         self.pack(**ipadding,side='left',padx=pos)
         self.pack_propagate(False)
     
-
+#MAIN
 if __name__ == "__main__":
     ap=Aplicacion()
     ap.mainloop()
