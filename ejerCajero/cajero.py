@@ -86,13 +86,13 @@ class Aplicacion(Tk):
                             sentencia3 = f"UPDATE cajero set CANTIDAD = CANTIDAD - {resto} where MONEDA = {bbdd_moneda}"
                             cursor.execute(sentencia3)
                             connection.commit()
-                            self.vueltas_text += f"{resto} {bbdd_moneda}\n"
+                            self.vueltas_text += f"{resto} de {bbdd_moneda}€\n"
                         else:
                             resto_cantidad = round(resto_cantidad - (bbdd_moneda * bbdd_cantidad), 2)
                             sentencia3 = f"UPDATE cajero set CANTIDAD = CANTIDAD - {bbdd_cantidad} where MONEDA = {bbdd_moneda}"
                             cursor.execute(sentencia3)
                             connection.commit()
-                            self.vueltas_text += f"{bbdd_cantidad} {bbdd_moneda}\n"
+                            self.vueltas_text += f"{bbdd_cantidad} de {bbdd_moneda}€\n"
                 self.vueltas.delete(1.0, END)
                 self.vueltas.insert(INSERT, self.vueltas_text)
          except mysql.connector.Error as e:
