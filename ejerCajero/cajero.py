@@ -156,15 +156,30 @@ class Aplicacion(Tk):
         self.geometry('%dx%d+%d+%d' % (w, h, x, y))
         self.resizable(False,False)
         self.configure(background="#4bdddb")
+    
+    def cambio(this,*args,spb,v):
+        try:
+            conn = mysql.connector.connect(host="localhost", user="root", password="root", database="CAJEROS")
+            print(spb.get())
+            print(v)
+            sentencia="update cajero set cantidad="+str(spb.get())+" where moneda="+str(v)
+            cursor = conn.cursor()
+            cursor.execute(sentencia)
+            conn.commit()
+        except mysql.connector.Error as error:
+            print(error)
+        finally:
+            cursor.close()
 
 
 class spinbox(Spinbox):
     def __init__(self, ventana, fila, columna, vari):
         self.contenido=ventana
         cadena =('w'+str(vari)).replace('.','')
-        zz=ttk.Spinbox(ventana,name=cadena,from_=0,to=globals()[cadena].get(),increment=1,justify="right",textvariable=globals()[cadena])
+        zz=ttk.Spinbox(ventana,name=cadena,from_=0,to=100,increment=1,justify="right",textvariable=globals()[cadena])
         zz.configure(font="Arial 12",width=8)
         zz.grid(padx=5,pady=5,row=fila,column=columna)
+        zz.bind("<Button>", lambda click,valor=vari,sb=zz: Aplicacion.cambio(click,spb=sb,v=valor))
       
 class label(Label):
     def __init__(self, ventana, fila, columna, texto):
