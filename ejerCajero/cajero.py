@@ -198,10 +198,10 @@ class spinbox(Spinbox):
     def __init__(self, ventana, fila, columna, vari):
         self.contenido=ventana
         cadena =('w'+str(vari)).replace('.','')
-        zz=ttk.Spinbox(ventana,name=cadena,from_=0,to=100,increment=1,justify="right",textvariable=globals()[cadena])
-        zz.configure(font="Arial 12",width=8)
-        zz.grid(padx=5,pady=5,row=fila,column=columna)
-        zz.bind("<Button>", lambda click,valor=vari,sb=zz: Aplicacion.cambio(click,spb=sb,v=valor))
+        spinbox1=ttk.Spinbox(ventana,name=cadena,from_=0,to=100,increment=1,justify="right",textvariable=globals()[cadena])
+        spinbox1.configure(font="Arial 12",width=8)
+        spinbox1.grid(padx=5,pady=5,row=fila,column=columna)
+        spinbox1.bind("<Button>", lambda click,valor=vari,sb=spinbox1: Aplicacion.cambio(click,spb=sb,v=valor))
       
 #CLASE ENCARGADA DE LA CREACION DE LABELS
 class label(Label):
