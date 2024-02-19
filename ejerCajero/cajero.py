@@ -7,16 +7,23 @@ import bbdd
 class Aplicacion(Tk):
     def __init__(self):
         super().__init__()
+
+        #PROPIEDADES DE LA VENTANA Y VERIFICACION DE EXISTENCIA DE BBDD Y TABLA
         self.iniciar()
         bbdd.base.verificar()
         bbdd.base.verificartbl()
         self.color="#4bdddb"
+
+        #CREACION DE LOS FRAMES
         self.marco1=frame(self,180,self.color,(40,40))
         self.marco2=frame(self,420,self.color,(0,40))
+
+        #CREACION Y CARGA DE LOS SPINBOX Y LABELS DEL FRAME IZQUIERDO
         self.llenar()
         self.recargar()
-        self.compra=DoubleVar().set(273)
 
+        #CREACION DEL APARTADO DE COMPRA EN EL FRAME DERECHO
+        self.compra=DoubleVar()
         label2(self.marco2,"Comprar:")
         self.compra=Spinbox(self.marco2,name="compra",from_=0,to=10000,increment=1,justify="right",textvariable=self.compra)
         self.compra.config(font="Arial 12",width=25)
@@ -25,6 +32,7 @@ class Aplicacion(Tk):
         
         Frame(self.marco2,bg=self.color,height=60,bd=0,pady=10).pack(fill=X)
 
+        #CREACION DEL APARTADO DE PAGO EN EL FRAME DERECHO
         label2(self.marco2,"Pago:")
         self.pago=Text(self.marco2,height=5)
         self.pago.pack()
@@ -36,6 +44,7 @@ class Aplicacion(Tk):
 
         Frame(self.marco2,bg=self.color,height=60,bd=0,pady=10).pack(fill=X)
 
+        #CREACION DEL APARTADO DE LAS VUELTAS EN EL FRAME DERECHO
         label2(self.marco2,"Vueltas:")
         self.vueltas=Text(self.marco2,height=12)
         self.vueltas.pack()
@@ -46,11 +55,16 @@ class Aplicacion(Tk):
         scrollbar2.config(command=self.vueltas.yview)
 
         Frame(self.marco2,bg=self.color,height=40,bd=0,pady=10).pack(fill=X)
-        self.boton = Button(self.marco2, text="Comprar",command=self.calcular)
+
+        #CREACION DEL BOTON DE REALIZAR LA COMPRA EN EL FRAME DERECHO
+        self.boton = Button(self.marco2, text="COMPRAR",command=self.calcular)
         self.boton.pack()
         self.boton.pack_propagate(False)
 
+    #FUNCION PARA CALCULAR LAS VUELTAS Y DEVOLVERLAS, ADEMAS DE ACTUALIZAR LA BBDD
     def calcular(self):
+
+        #CALCULO PARA SABER SI HAY CAMBIO
         self.costo=float(self.compra.get())
         self.dinero=self.pago.get("1.0","end-1c")
         tb = self.dinero.split('#')
@@ -61,16 +75,20 @@ class Aplicacion(Tk):
         resto_cantidad = cantidad_total - self.costo
         resto_cantidad = round(resto_cantidad, 2)
         self.vueltas_text=""
+
+        #CASO DE QUE SI HAYA CAMBIO
         if self.costo <= cantidad_total:
          try:
             sentencia = f"SELECT * from cajero where CANTIDAD > 0 order by MONEDA DESC"
             connection = mysql.connector.connect(host='localhost', database='CAJEROS', user='root', password='root')
             cursor = connection.cursor()
+            #INGRESO DE LO PAGADO
             for i in tb:
                 matriz2 = i.split('-')
                 sentencia2 = f"UPDATE cajero set CANTIDAD = CANTIDAD + {matriz2[0]} where MONEDA = {matriz2[1]}"
                 cursor.execute(sentencia2)
                 connection.commit()
+            #DEVOLVER EL CAMBIO
             while resto_cantidad > 0.01:
                 cursor.execute(sentencia)
                 records = cursor.fetchall()
@@ -102,10 +120,13 @@ class Aplicacion(Tk):
             if connection.is_connected():
                 connection.close()
                 cursor.close()
+        #EN CASO DE NO INGRESAR EL SUFICIENTE DINERO DICE POR CONSOLA CUANTO MAS TIENE QUE INGRESAR
         else:
-         print(f"Debe ingresar {resto_cantidad} para completar la compra")
+         print(f"Debe ingresar {-resto_cantidad}€ para completar la compra")
+        #RECARGA LOS SPINBOX DEL MARCO IZQUIERDO
         self.llenar()
         self.recargar()
+
 
     def recargar(self):
         try:
