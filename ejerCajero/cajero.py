@@ -58,6 +58,7 @@ class Aplicacion(Tk):
 
         #CREACION DEL BOTON DE REALIZAR LA COMPRA EN EL FRAME DERECHO
         self.boton = Button(self.marco2, text="COMPRAR",command=self.calcular)
+        self.boton.configure(font="Arial 12 bold",bd=5, relief="ridge")
         self.boton.pack()
         self.boton.pack_propagate(False)
 
