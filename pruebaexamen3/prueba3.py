@@ -17,7 +17,6 @@ cursor.execute("SELECT ENAME FROM emp")
 ename_options = [row[0] for row in cursor.fetchall()]
 
 # Función para insertar datos en la tabla 'emp'
-# Función para insertar datos en la tabla 'emp'
 def insertar_datos():
     try:
         empno = int(entry_empno.get())
