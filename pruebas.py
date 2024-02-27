@@ -22,3 +22,55 @@ matriz=[
 
 for a in matriz:
      print(a["texto"],a["estilo"],a["funcion"])
+
+     import tkinter as tk
+from tkinter import ttk
+import mysql.connector
+
+# Conectar a la base de datos MySQL (reemplaza los valores con los de tu configuración)
+conn = mysql.connector.connect(
+    host="tu_host",
+    user="tu_usuario",
+    password="tu_contraseña",
+    database="tu_base_de_datos"
+)
+cursor = conn.cursor()
+
+# Crear una tabla de ejemplo
+cursor.execute("CREATE TABLE IF NOT EXISTS datos_ejemplo (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(255))")
+conn.commit()
+
+# Insertar datos de ejemplo
+cursor.execute("INSERT INTO datos_ejemplo (nombre) VALUES ('Dato 1')")
+cursor.execute("INSERT INTO datos_ejemplo (nombre) VALUES ('Dato 2')")
+cursor.execute("INSERT INTO datos_ejemplo (nombre) VALUES ('Dato 3')")
+conn.commit()
+
+# Consultar datos desde la base de datos
+cursor.execute("SELECT nombre FROM datos_ejemplo")
+datos = cursor.fetchall()
+
+# Crear la interfaz gráfica con Tkinter
+root = tk.Tk()
+root.title("Combobox con Datos SQL")
+
+# Variable de control para el Combobox
+selected_data = tk.StringVar()
+
+# Crear el Combobox y configurarlo con los datos de la consulta SQL
+combobox = ttk.Combobox(root, textvariable=selected_data)
+combobox['values'] = [dato[0] for dato in datos]
+combobox.pack(pady=10)
+
+def seleccionar():
+    seleccionado = selected_data.get()
+    print("Seleccionado:", seleccionado)
+
+# Botón para obtener la selección
+boton_seleccionar = tk.Button(root, text="Seleccionar", command=seleccionar)
+boton_seleccionar.pack(pady=10)
+
+root.mainloop()
+
+# Cerrar la conexión a la base de datos al salir
+conn.close()
