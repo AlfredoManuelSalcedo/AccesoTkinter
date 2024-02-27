@@ -32,19 +32,16 @@ class Principal:
 
     
     def Insertar(self):
+        #AÑADIMOS AL CUADERNO
         self.pagina1 = ttk.Frame(self.cuaderno1)
         self.cuaderno1.add(self.pagina1, text="Insertar socio")
-        conexion = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="bd_scott"
-        )
+        #BUSQUEDA DE LA LISTA DE JEFES
+        conexion = mysql.connector.connect(host="localhost",user="root",password="root",database="bd_scott")
         cursor = conexion.cursor()
         cursor.execute("SELECT ENAME,EMPNO FROM EMP WHERE EMPNO IN(SELECT DISTINCT MGR FROM EMP WHERE MGR IS NOT NULL) ORDER BY 1")
         ename_options = [row[0] for row in cursor.fetchall()]
 
-        #CREACION
+        #CREACION DE LABELS,ENTRYS y BOTON
         self.labelframe1=ttk.LabelFrame(self.pagina1, text="Socio")
         self.labelframe1.grid(column=0,row=0,padx=5,pady=10)
 
@@ -68,7 +65,8 @@ class Principal:
 
         label_comm = tk.Label(self.pagina1, text="COMM:")
         self.entry_comm = tk.Entry(self.pagina1)
-
+        
+        #EN EL EXECUTE BUSCA LA LISTA DE DEPARTAMENTOS
         label_dept = tk.Label(self.pagina1, text="DEPTNO:")
         cursor.execute("SELECT DNAME FROM dept")
         dept_options = [row[0] for row in cursor.fetchall()]
@@ -76,7 +74,7 @@ class Principal:
 
         btn_insertar = tk.Button(self.pagina1, text="Insertar Datos", command=self.insertar_datos)
 
-        #POSICIONAMIENTO
+        #POSICIONAMIENTO DE LOS LABELS, ENTRYS Y BOTON
         label_empno.grid(row=0, column=0, padx=5, pady=5)
         self.entry_empno.grid(row=0, column=1, padx=5, pady=5)
 
@@ -104,14 +102,10 @@ class Principal:
         btn_insertar.grid(row=8, column=0, columnspan=2, pady=10)
     
     def insertar_datos(self):
+        #TRATAMIENTO DE MGR Y DEPT PARA SACAR SUS Nº
         mgr_ename = self.combo_mgr.get()
         dept_dname = self.combo_dept.get()
-        conexion = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="bd_scott"
-        )
+        conexion = mysql.connector.connect(host="localhost",user="root",password="root",database="bd_scott")
         cursor = conexion.cursor()
         cursor.execute("SELECT EMPNO FROM emp WHERE ENAME = %s", (mgr_ename,))
         result = cursor.fetchone()
@@ -128,6 +122,8 @@ class Principal:
         else:
             mb.showerror("Error", "Departamento no encontrado")
             return
+        
+        #ARRAY QUE ALMACENA LOS DATOS A INSERTAR
         datos=(self.entry_empno.get(),
                self.entry_ename.get(),
                self.entry_job.get(),
@@ -136,40 +132,43 @@ class Principal:
                self.entry_sal.get(),
                self.entry_comm.get(),
                deptno)
+        
+        #FUCNCION PARA INSERTAR LOS DATOS
         self.empleado.nuevo_empleado(datos)
         mb.showinfo("Información", "Los datos fueron cargados")
 
     def listado_completo(self):
+        #INSERTAMOS EN EL CUADERNO
         self.pagina3=ttk.Frame(self.cuaderno1)
         self.cuaderno1.add(self.pagina3, text="Listado completo")
 
         self.labelframe3=ttk.LabelFrame(self.pagina3, text="Empleado")
         self.labelframe3.grid(column=0,row=0,padx=5,pady=10)
-   
+
+        #BOTON PARA EMPEZAR LA LISTA
         self.boton3=ttk.Button(self.labelframe3, text="Listado completo", command=self.listar)
         self.boton3.grid(column=0,row=0,padx=4,pady=4)
 
+        #SCROLLEDTEXT DONDE SE MUESTRA LA LISTA
         self.scrolledtext1=st.ScrolledText(self.labelframe3, width=30, height=10)
         self.scrolledtext1.grid(column=0, row=1,padx=10,pady=10)
     
     def listar(self):
+        #LLAMADA A FUNCION QUE DEVUELVE TODOS LOS EMPLEADOS
         respuesta=self.empleado.empleados()
         self.scrolledtext1.delete("1.0", tk.END)
         for fila in respuesta:
+            #POR CADA EMPLEADO SE TRATA MGR Y DEPT PARA QUE MUESTREN SUS NOMBRES
             mgr_number = fila[3]
             dept_number = fila[7]
-            conexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="root",
-            database="bd_scott"
-            )
+            conexion = mysql.connector.connect(host="localhost",user="root",password="root",database="bd_scott")
             cursor = conexion.cursor()
             cursor.execute("SELECT ENAME FROM emp WHERE EMPNO = %s", (mgr_number,))
             result = cursor.fetchone()
             if result:
                 mgr_nom = result[0]
             else:
+                #KING AL SER EL PRESIDENTE TIENE JEFE NULO
                 if fila[1]=="KING":
                     mgr_nom = ""
                 else:       
@@ -183,6 +182,8 @@ class Principal:
             else:
                 mb.showerror("Error", "Departamento no encontrado")
                 return
+            
+            #SE INSERTA EN EL SCROLLEDTEXT
             self.scrolledtext1.insert(tk.END, "EMPNO:"+str(fila[0])+
                                               "\nENAME:"+fila[1]+
                                               "\nJOB:"+str(fila[2])+
@@ -194,6 +195,7 @@ class Principal:
                                               "\n\n")
             
     def borrado(self):
+        #INSERTADO EN EL CUADERNO
         self.pagina4=ttk.Frame(self.cuaderno1)
         self.cuaderno1.add(self.pagina4, text="Borrado de empleados")
 
@@ -203,6 +205,7 @@ class Principal:
         self.label11=ttk.Label(self.labelframe4, text="EMPNO:")
         self.label11.grid(column=0, row=0,padx=4,pady=4)
 
+        #ENTRY QUE RECOGE EL ID A BORRAR
         self.codigoborra=tk.StringVar()
         self.entrycodigoborra=ttk.Entry(self.labelframe4,textvariable=self.codigoborra)
         self.entrycodigoborra.grid(column=1,row=0,padx=4,pady=4)
@@ -211,6 +214,7 @@ class Principal:
         self.boton4.grid(column=1,row=1,padx=4,pady=4)
     
     def borrar(self):
+        #LLAMAMOS A LA FUNCION PARA QUE BORRE EL EMPLEADO CON EL ID DADO Y DEVUELVA LAS FILAS BORRADAS
         datos=(self.codigoborra.get(),)
         cantidad=self.empleado.borrar_empleado(datos)
         if cantidad==1:
@@ -220,23 +224,20 @@ class Principal:
             mb.showerror("Información", "No existe un articulo con dicho codigo")
 
     def modificar(self):
+        #INSERTACION EN EL CUADERNO
         self.pagina5 = ttk.Frame(self.cuaderno1)
         self.cuaderno1.add(self.pagina5, text="Modificar empleado")
     
         self.labelframe5=ttk.LabelFrame(self.pagina5, text="Modificar:")
         self.labelframe5.grid(column=0,row=0,padx=5,pady=10)
 
-        conexion = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="bd_scott"
-        )
+        #DE NUEVO BUSCAMOS LA LISTA DE JEFES
+        conexion = mysql.connector.connect(host="localhost",user="root",password="root",database="bd_scott")
         cursor = conexion.cursor()
         cursor.execute("SELECT ENAME,EMPNO FROM EMP WHERE EMPNO IN(SELECT DISTINCT MGR FROM EMP WHERE MGR IS NOT NULL) ORDER BY 1")
         ename_options2 = [row[0] for row in cursor.fetchall()]
 
-        #CREACION
+        #CREACION DE LABELS ENTRYS Y BOTON
         self.labelframe2=ttk.LabelFrame(self.pagina5, text="Empleado")
         self.labelframe2.grid(column=0,row=0,padx=5,pady=10)
 
@@ -261,6 +262,7 @@ class Principal:
         label_comm2 = tk.Label(self.pagina5, text="COMM:")
         self.entry_comm2 = tk.Entry(self.pagina5)
 
+        #BUSCAMOS LA LISTA DE DEPARTAMENTO
         label_dept2 = tk.Label(self.pagina5, text="DEPTNO:")
         cursor.execute("SELECT DNAME FROM dept")
         dept_options2 = [row[0] for row in cursor.fetchall()]
@@ -268,7 +270,7 @@ class Principal:
 
         btn_modificar = tk.Button(self.pagina5, text="Actualizar Datos", command=self.modifico)
 
-        #POSICIONAMIENTO
+        #POSICIONAMIENTO DE ENTRYS LABELS Y BOTON
         label_empno2.grid(row=0, column=0, padx=5, pady=5)
         self.entry_empno2.grid(row=0, column=1, padx=5, pady=5)
 
@@ -296,14 +298,11 @@ class Principal:
         btn_modificar.grid(row=8, column=0, columnspan=2, pady=10)
 
     def modifico(self):
+
+        #TRATAMOS MGR Y DEPT PARA SACAR EL NUMERO
         mgr_ename2 = self.combo_mgr2.get()
         dept_dname2 = self.combo_dept2.get()
-        conexion = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="bd_scott"
-        )
+        conexion = mysql.connector.connect(host="localhost",user="root",password="root",database="bd_scott")
         cursor = conexion.cursor()
         cursor.execute("SELECT EMPNO FROM emp WHERE ENAME = %s", (mgr_ename2,))
         result = cursor.fetchone()
@@ -320,6 +319,8 @@ class Principal:
         else:
             mb.showerror("Error", "Departamento no encontrado")
             return
+        
+        #GUARDAMOS EN DATOS LOS DATOS NUEVOS
         datos=(self.entry_ename2.get(),
                self.entry_job2.get(),
                mgr2,
@@ -328,6 +329,8 @@ class Principal:
                self.entry_comm2.get(),
                deptno2,
                self.entry_empno2.get())
+        
+        #LLAMAMOS A LA FUNCION QUE ACTUALIZARA LOS DATOS EN BASE AL ID
         respuesta3=self.empleado.modificar(datos)
         if respuesta3>0:
             mb.showinfo("Información","Usuario actualizado existosamente")
