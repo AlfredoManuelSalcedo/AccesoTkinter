@@ -31,3 +31,11 @@ class Empleado:
         cursor.execute(sql,datos)
         vuelta=cursor.fetchall()
         return vuelta
+    
+    def modificar(self, datos):
+        cursor=self.conexion.cursor()
+        sql="UPDATE emp set ENAME=%s, JOB=%s, MGR=%s, HIREDATE=%s, SAL=%s, COMM=%s, DEPTNO=%s where EMPNO=%s"
+        cursor.execute(sql,datos)
+        n=cursor.rowcount
+        self.conexion.commit()
+        return n #devuelve las filas modificadas

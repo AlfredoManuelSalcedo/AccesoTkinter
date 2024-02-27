@@ -25,6 +25,7 @@ class Principal:
         self.Insertar()
         self.listado_completo()
         self.borrado()
+        self.modificar()
         self.cuaderno1.grid(column=0, row=0, padx=10,pady=10)
         self.ventana1.mainloop()
 
@@ -128,7 +129,7 @@ class Principal:
             mb.showerror("Error", "Departamento no encontrado")
             return
         datos=(self.entry_empno.get(),
-               self.entry_empno.get(),
+               self.entry_ename.get(),
                self.entry_job.get(),
                mgr,
                self.entry_hiredate.get(),
@@ -155,14 +156,41 @@ class Principal:
         respuesta=self.empleado.empleados()
         self.scrolledtext1.delete("1.0", tk.END)
         for fila in respuesta:
+            mgr_number = fila[3]
+            dept_number = fila[7]
+            conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            database="bd_scott"
+            )
+            cursor = conexion.cursor()
+            cursor.execute("SELECT ENAME FROM emp WHERE EMPNO = %s", (mgr_number,))
+            result = cursor.fetchone()
+            if result:
+                mgr_nom = result[0]
+            else:
+                if fila[1]=="KING":
+                    mgr_nom = ""
+                else:       
+                    mb.showerror("Error", fila[1]+"Empleado (MGR) no encontrado")
+                    return
+
+            cursor.execute("SELECT DNAME FROM dept WHERE DEPTNO = %s", (dept_number,))
+            result = cursor.fetchone()
+            if result:
+                dept_nom = result[0]
+            else:
+                mb.showerror("Error", "Departamento no encontrado")
+                return
             self.scrolledtext1.insert(tk.END, "EMPNO:"+str(fila[0])+
                                               "\nENAME:"+fila[1]+
                                               "\nJOB:"+str(fila[2])+
-                                              "\nMGR:"+str(fila[3])+
+                                              "\nMGR:"+mgr_nom+
                                               "\nHIREDATE:"+str(fila[4])+
                                               "\nSAL:"+str(fila[5])+
                                               "\nCOMM:"+str(fila[6])+
-                                              "\nDEPTNO:"+str(fila[7])+
+                                              "\nDEPTNO:"+dept_nom+
                                               "\n\n")
             
     def borrado(self):
@@ -209,12 +237,11 @@ class Principal:
         ename_options2 = [row[0] for row in cursor.fetchall()]
 
         #CREACION
-        self.labelframe2=ttk.LabelFrame(self.pagina5, text="Socio")
+        self.labelframe2=ttk.LabelFrame(self.pagina5, text="Empleado")
         self.labelframe2.grid(column=0,row=0,padx=5,pady=10)
 
         label_empno2 = tk.Label(self.pagina5, text="EMPNO:")
-        self.entry_empno2 = tk.Entry(self.pagina5)
-        self.entry_entry_empno2=tk.Entry(self.pagina5,textvariable=self.entry_empno2)
+        self.entry_empno2=tk.Entry(self.pagina5)
 
         label_ename2 = tk.Label(self.pagina5, text="ENAME:")
         self.entry_ename2 = tk.Entry(self.pagina5)
@@ -240,49 +267,72 @@ class Principal:
         self.combo_dept2 = ttk.Combobox(self.pagina5, values=dept_options2)
 
         btn_modificar = tk.Button(self.pagina5, text="Actualizar Datos", command=self.modifico)
-        btn_buscar= tk.Button(self.pagina5,text="Buscar empleado", command=self.busqueda)
 
         #POSICIONAMIENTO
         label_empno2.grid(row=0, column=0, padx=5, pady=5)
-        self.entry_empno.grid(row=0, column=1, padx=5, pady=5)
+        self.entry_empno2.grid(row=0, column=1, padx=5, pady=5)
 
         label_ename2.grid(row=1, column=0, padx=5, pady=5)
-        self.entry_ename.grid(row=1, column=1, padx=5, pady=5)
+        self.entry_ename2.grid(row=1, column=1, padx=5, pady=5)
 
         label_job2.grid(row=2, column=0, padx=5, pady=5)
-        self.entry_job.grid(row=2, column=1, padx=5, pady=5)
+        self.entry_job2.grid(row=2, column=1, padx=5, pady=5)
 
         label_mgr2.grid(row=3, column=0, padx=5, pady=5)
-        self.combo_mgr.grid(row=3, column=1, padx=5, pady=5)
+        self.combo_mgr2.grid(row=3, column=1, padx=5, pady=5)
 
         label_hiredate2.grid(row=4, column=0, padx=5, pady=5)
-        self.entry_hiredate.grid(row=4, column=1, padx=5, pady=5)
+        self.entry_hiredate2.grid(row=4, column=1, padx=5, pady=5)
 
         label_sal2.grid(row=5, column=0, padx=5, pady=5)
-        self.entry_sal.grid(row=5, column=1, padx=5, pady=5)
+        self.entry_sal2.grid(row=5, column=1, padx=5, pady=5)
 
         label_comm2.grid(row=6, column=0, padx=5, pady=5)
-        self.entry_comm.grid(row=6, column=1, padx=5, pady=5)
+        self.entry_comm2.grid(row=6, column=1, padx=5, pady=5)
 
         label_dept2.grid(row=7, column=0, padx=5, pady=5)
-        self.combo_dept.grid(row=7, column=1, padx=5, pady=5)
+        self.combo_dept2.grid(row=7, column=1, padx=5, pady=5)
 
         btn_modificar.grid(row=8, column=0, columnspan=2, pady=10)
 
-    def busqueda(self):
-        datos=(self.entry_empno2.get(),)
-        respuesta2=self.empleado.consultaEmpleado(datos)
-        if len(respuesta2)>0:
-            self.entry_empno2.set()
-            self.nombre3.set(respuesta2[0][0])
-            self.estatura3.set(respuesta2[0][1])
-            self.edad3.set(respuesta2[0][2])
-            self.localidad3.set(respuesta2[0][3])
+    def modifico(self):
+        mgr_ename2 = self.combo_mgr2.get()
+        dept_dname2 = self.combo_dept2.get()
+        conexion = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="root",
+        database="bd_scott"
+        )
+        cursor = conexion.cursor()
+        cursor.execute("SELECT EMPNO FROM emp WHERE ENAME = %s", (mgr_ename2,))
+        result = cursor.fetchone()
+        if result:
+            mgr2 = result[0]
         else:
-            self.nombre2.set("")
-            self.estatura2.set("")
-            self.edad2.set("")
-            self.localidad2.set("")
-            mb.showerror("Información", "No existe un socio con dicho codigo")
+            mb.showerror("Error", "Empleado (MGR) no encontrado")
+            return
+        
+        cursor.execute("SELECT DEPTNO FROM dept WHERE DNAME = %s", (dept_dname2,))
+        result = cursor.fetchone()
+        if result:
+            deptno2 = result[0]
+        else:
+            mb.showerror("Error", "Departamento no encontrado")
+            return
+        datos=(self.entry_ename2.get(),
+               self.entry_job2.get(),
+               mgr2,
+               self.entry_hiredate2.get(),
+               self.entry_sal2.get(),
+               self.entry_comm2.get(),
+               deptno2,
+               self.entry_empno2.get())
+        respuesta3=self.empleado.modificar(datos)
+        if respuesta3>0:
+            mb.showinfo("Información","Usuario actualizado existosamente")
+        else:
+            mb.showerror("Información","No se pudo modificar")
+
 
 aplicacion1=Principal()
